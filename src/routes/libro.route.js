@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { borrarLibroPorId, borrarLibroPorIsdn, obtenerLibro, obtenerLibros } from '../services/libro.service.js';
+import { actualizarLibro, borrarLibroPorId, 
+    borrarLibroPorIsdn, 
+    guardarLibro, 
+    obtenerLibro, 
+    obtenerLibros 
+} from '../services/libro.service.js';
 
 const router = Router();
 
@@ -14,15 +19,17 @@ router.get('/:isdn', async (req, res) => {
     res.json(await obtenerLibro(isdn));
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+    const dataEntrando = req.body;
     console.log('Guardamos un libro');
-    res.json({});
+    res.json(await guardarLibro(dataEntrando));
 });
 
-router.put('/:isdn', (req, res) => {
-    const isdn = req.params.isdn;
+router.put('/:isdn', async (req, res) => {
+    const isdnPorActualizar = req.params.isdn;
+    const dataEntrando = req.body;
     console.log('Actualizar un libro');
-    res.json({});
+    res.json(await actualizarLibro(dataEntrando, isdnPorActualizar));
 });
 
 router.delete('/:isdn', async (req, res) => {
